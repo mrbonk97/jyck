@@ -1,23 +1,32 @@
 package com.mrbonk97.ourmemory.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Setter
+@Getter
 @Entity
-public class Account {
+@Table(name = "account")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @Column(nullable = false)
-    String email;
+    private String email;
     @Column(nullable = false)
-    String name;
+    private String name;
     @Column(nullable = false)
-    String password;
+    private String password;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    Image image;
+    private MediaFile profileImage;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "account_friend", inverseJoinColumns = @JoinColumn(name = "friend_id"))
-    List<Friend> friends;
+    private List<Friend> friends;
+    @Enumerated(EnumType.STRING)
+    private Provider provider = Provider.local;
+    private String providerId;
+
 }

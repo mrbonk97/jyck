@@ -13,7 +13,7 @@ public class Friend {
     String name;
     String phoneNumber;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    Image image;
+    MediaFile mediaFile;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "friend_event", inverseJoinColumns = @JoinColumn(name = "event_id"))
     List<Event> eventList;

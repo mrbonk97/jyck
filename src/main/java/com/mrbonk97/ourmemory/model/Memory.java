@@ -17,7 +17,7 @@ public class Memory {
     Date date;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "memory_image", inverseJoinColumns = @JoinColumn(name = "image_id"))
-    List<Image> imageList;
+    List<MediaFile> mediaFileList;
 
     @ManyToMany
     @JoinTable(name = "memory_friend",
