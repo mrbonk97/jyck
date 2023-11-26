@@ -4,14 +4,13 @@ import com.mrbonk97.ourmemory.dto.auth.request.AuthSignupRequest;
 import com.mrbonk97.ourmemory.model.User;
 import com.mrbonk97.ourmemory.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
+@Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/api/v2/users")
 @RestController
 public class UserController {
     private final UserService userService;
@@ -24,15 +23,16 @@ public class UserController {
     }
 
     @PutMapping("/me")
-    public User updateUser(@RequestPart(value="file",required = false) MultipartFile profileImage, Authentication authentication, AuthSignupRequest authSignupRequest) throws IOException {
-        System.out.println(profileImage);
+    public User updateUser(Authentication authentication,@RequestBody AuthSignupRequest authSignupRequest) {
         Long userId = Long.valueOf(authentication.getName());
+        log.error("들어왔는지" + userId);
         return userService.updateUser(
                 userId,
                 authSignupRequest.getEmail(),
-                authSignupRequest.getPassword(),
                 authSignupRequest.getName(),
-                profileImage
+                authSignupRequest.getPassword(),
+                authSignupRequest.getPhoneNumber(),
+                authSignupRequest.getProfileImage()
         );
     }
 

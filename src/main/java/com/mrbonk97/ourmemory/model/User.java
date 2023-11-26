@@ -16,15 +16,15 @@ public class User {
     private Long id;
     @Column(nullable = false)
     private String email;
-    @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private String password;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    private MediaFile profileImage;
+    private String phoneNumber;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "account_friend", inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private List<Friend> friends;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private MediaFile profileImage;
     @Enumerated(EnumType.STRING)
     private Provider provider = Provider.local;
     private String providerId;

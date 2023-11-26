@@ -27,7 +27,7 @@ public class JwtTokenUtils {
     }
 
     public static String generateToken(Long id) {
-        return Jwts.builder()
+        return "Bearer " + Jwts.builder()
                 .setSubject(String.valueOf(id))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expireTime))

@@ -1,15 +1,13 @@
 package com.mrbonk97.ourmemory.service;
 
+import com.mrbonk97.ourmemory.Exception.ErrorCode;
+import com.mrbonk97.ourmemory.Exception.OurMemoryException;
+import com.mrbonk97.ourmemory.model.MediaFile;
 import com.mrbonk97.ourmemory.model.User;
 import com.mrbonk97.ourmemory.repository.UserRepository;
-import com.mrbonk97.ourmemory.utils.MediaFileUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,21 +16,21 @@ public class UserService {
 
     @Transactional
     public void deleteUser(Long id) {
-        userRepository.findById(id).orElseThrow(() -> new RuntimeException("해당 계정은 이미 삭제 됨"));
+        userRepository.findById(id).orElseThrow(() -> new OurMemoryException(ErrorCode.USER_NOT_FOUND));
         userRepository.deleteById(id);
     }
 
-    // TODO : 예외
-    public User getUser(Long userId) { return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("asd")); }
+    public User getUser(Long userId) { return userRepository.findById(userId).orElseThrow(() -> new OurMemoryException(ErrorCode.USER_NOT_FOUND)); }
 
-    public User updateUser(Long userId, String email, String password, String name, MultipartFile profileImage) throws IOException {
-        System.out.println(profileImage + "외없음");
-        Optional<User> user = userRepository.findById(userId);
-        if(user.isEmpty()) throw new RuntimeException("유저 없음");
-        user.get().setEmail(email);
-        user.get().setPassword(password);
-        user.get().setName(name);
-        if(profileImage != null) user.get().setProfileImage(MediaFileUtils.convertMultiPartFile(profileImage));
-        return userRepository.saveAndFlush(user.get());
+
+    public User updateUser(Long userId, String email, String name, String password, String phoneNumber, String profileImage) {
+        User user = userRepository.findById(userId).orElseThrow( () -> new OurMemoryException(ErrorCode.USER_NOT_FOUND));
+        user.setEmail(email);
+        user.setName(name);
+        user.setPassword(password);
+        user.setProfileImage(new MediaFile(profileImage));
+        user.setPhoneNumber(phoneNumber);
+        
+        return userRepository.saveAndFlush(user);
     }
 }
