@@ -44,7 +44,7 @@ public class FriendController {
                     friendCreateRequest.getEvents(),
                     friendCreateRequest.getProfileImage()
             );
-
+            if(friend == null) continue;
             friendResponse.add(FriendResponse.fromFriend(friend));
         }
         return Response.success(friendResponse);

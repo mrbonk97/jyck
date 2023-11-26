@@ -77,6 +77,8 @@ public class FriendService {
         if(profileImage!= null) friend.setProfileImage(new MediaFile(profileImage));
         if(events != null) for(Event e: events) friend.getEventList().add(e);
 
+        user.getFriends().add(friend);
+
         return friendRepository.save(friend);
     }
 
