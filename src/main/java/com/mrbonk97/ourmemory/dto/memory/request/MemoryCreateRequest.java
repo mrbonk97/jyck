@@ -12,6 +12,6 @@ public class MemoryCreateRequest {
     String title;
     String description;
     Date date;
-    List<Long> friendIdList;
-
+    List<Long> friendIds;
+    List<String> images;
 }

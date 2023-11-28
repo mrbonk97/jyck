@@ -23,7 +23,7 @@ public class Memory {
     Date date;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "memory_image", inverseJoinColumns = @JoinColumn(name = "image_id"))
-    List<MediaFile> Images;
+    List<MediaFile> Images = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "memory_friend",
