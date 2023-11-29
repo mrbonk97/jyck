@@ -15,6 +15,7 @@ public enum ErrorCode {
     INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "패스워드가 유효하지 않음"),
     DUPLICATED_EMAIL(HttpStatus.CONFLICT, "이메일이 중복됨."),
     INVALID_PERMISSION(HttpStatus.UNAUTHORIZED, "권한이 없음"),
+    UNABLE_TO_SEND_EMAIL(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 발송 실패"),
     DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "데이터베이스 에러");
 
     private final HttpStatus status;

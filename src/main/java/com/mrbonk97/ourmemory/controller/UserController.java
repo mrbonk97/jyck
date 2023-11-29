@@ -1,6 +1,8 @@
 package com.mrbonk97.ourmemory.controller;
 
+import com.mrbonk97.ourmemory.dto.Response;
 import com.mrbonk97.ourmemory.dto.auth.request.AuthSignupRequest;
+import com.mrbonk97.ourmemory.dto.user.response.UserResponse;
 import com.mrbonk97.ourmemory.model.User;
 import com.mrbonk97.ourmemory.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,16 +19,16 @@ public class UserController {
 
 
     @GetMapping("/me")
-    public User getUser(Authentication authentication) {
+    public Response<UserResponse> getUser(Authentication authentication) {
         Long userId = Long.valueOf(authentication.getName());
-        return userService.getUser(userId);
+        User user = userService.getUser(userId);
+        return Response.success(UserResponse.fromUser(user));
     }
 
     @PutMapping("/me")
-    public User updateUser(Authentication authentication,@RequestBody AuthSignupRequest authSignupRequest) {
+    public Response<UserResponse> updateUser(Authentication authentication,@RequestBody AuthSignupRequest authSignupRequest) {
         Long userId = Long.valueOf(authentication.getName());
-        log.error("들어왔는지" + userId);
-        return userService.updateUser(
+        User user = userService.updateUser(
                 userId,
                 authSignupRequest.getEmail(),
                 authSignupRequest.getName(),
@@ -34,11 +36,14 @@ public class UserController {
                 authSignupRequest.getPhoneNumber(),
                 authSignupRequest.getProfileImage()
         );
+
+        return Response.success(UserResponse.fromUser(user));
     }
 
     @DeleteMapping("/me")
-    public void deleteUser(Authentication authentication) {
+    public Response<String> deleteUser(Authentication authentication) {
         Long userId = Long.valueOf(authentication.getName());
         userService.deleteUser(userId);
+        return Response.success("삭제 완료.");
     }
 }

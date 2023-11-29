@@ -25,6 +25,7 @@ public class AuthSignupResponse {
         authSignupResponse.setId(user.getId());
         authSignupResponse.setEmail(user.getEmail());
         authSignupResponse.setName(user.getName());
+        authSignupResponse.setPhoneNumber(user.getPhoneNumber());
         authSignupResponse.setProfileImage(user.getProfileImage());
         authSignupResponse.setProvider(user.getProvider());
         authSignupResponse.setProviderId(user.getProviderId());

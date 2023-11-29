@@ -25,6 +25,8 @@ public class User {
     private List<Friend> friends;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private MediaFile profileImage;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Memory> memories;
     @Enumerated(EnumType.STRING)
     private Provider provider = Provider.local;
     private String providerId;
