@@ -1,6 +1,7 @@
 package com.mrbonk97.ourmemory.model;
 
-public enum Provider {
+public enum AuthProvider {
     google,
-    local
+    local,
+    naver
 }

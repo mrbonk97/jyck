@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Setter
@@ -17,7 +18,6 @@ public class User {
     @Column(nullable = false)
     private String email;
     private String name;
-    @Column(nullable = false)
     private String password;
     private String phoneNumber;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -28,7 +28,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Memory> memories;
     @Enumerated(EnumType.STRING)
-    private Provider provider = Provider.local;
+    private AuthProvider authProvider = AuthProvider.local;
     private String providerId;
+    Date emailVerified;
 
 }

@@ -10,10 +10,9 @@ public class UserResponse {
     private Long id;
     private String email;
     private String name;
-    private String password;
     private String phoneNumber;
     private MediaFile profileImage;
-    private Provider provider;
+    private AuthProvider authProvider;
     private String providerId;
 
     public static UserResponse fromUser(User user) {
@@ -23,7 +22,7 @@ public class UserResponse {
         userResponse.setName(user.getName());
         userResponse.setPhoneNumber(user.getPhoneNumber());
         userResponse.setProfileImage(user.getProfileImage());
-        userResponse.setProvider(user.getProvider());
+        userResponse.setAuthProvider(user.getAuthProvider());
         userResponse.setProviderId(user.getProviderId());
         return userResponse;
     }

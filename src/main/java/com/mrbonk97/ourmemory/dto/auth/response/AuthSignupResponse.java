@@ -1,11 +1,9 @@
 package com.mrbonk97.ourmemory.dto.auth.response;
 
-import com.mrbonk97.ourmemory.model.Friend;
 import com.mrbonk97.ourmemory.model.MediaFile;
-import com.mrbonk97.ourmemory.model.Provider;
+import com.mrbonk97.ourmemory.model.AuthProvider;
 import com.mrbonk97.ourmemory.model.User;
 import com.mrbonk97.ourmemory.utils.JwtTokenUtils;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +15,7 @@ public class AuthSignupResponse {
     private String name;
     private String phoneNumber;
     private MediaFile profileImage;
-    private Provider provider;
+    private AuthProvider authProvider;
     private String providerId;
     private String jwtToken;
     public static AuthSignupResponse fromUser(User user) {
@@ -27,7 +25,7 @@ public class AuthSignupResponse {
         authSignupResponse.setName(user.getName());
         authSignupResponse.setPhoneNumber(user.getPhoneNumber());
         authSignupResponse.setProfileImage(user.getProfileImage());
-        authSignupResponse.setProvider(user.getProvider());
+        authSignupResponse.setAuthProvider(user.getAuthProvider());
         authSignupResponse.setProviderId(user.getProviderId());
         authSignupResponse.setJwtToken(JwtTokenUtils.generateToken(user.getId()));
         return authSignupResponse;
