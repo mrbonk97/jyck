@@ -56,6 +56,8 @@ public class AuthService {
         String authCode = RandomNumberUtils.generateNumber();
         redisService.setValues(AUTH_CODE_PREFIX + toEmail, authCode, Duration.ofMillis(authCodeExpirationMillis));
 
+        System.out.println(toEmail);
+
         String text = "회원 가입을 위해 인증코드 확인 후 이메일 인증을 완료해 주세요.\n아래 인증코드를 복사하여 입력해 주시기 바랍니다.\n * 이메일 인증 코드: " + authCode;
 
         SimpleMailMessage msg = new SimpleMailMessage();

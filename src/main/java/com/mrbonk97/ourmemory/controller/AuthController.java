@@ -36,16 +36,16 @@ public class AuthController {
         return Response.success(AuthLoginResponse.fromToken(jwtToken));
     }
 
-    @PostMapping("/auth-email")
-    public Response<String> validateEmail(@RequestBody String email) {
-        authService.sendAuthEmail(email);
+    @PostMapping("/validate-email")
+    public Response<String> validateEmail(@RequestBody ValidateEmailRequest validateEmailRequest) {
+        authService.sendAuthEmail(validateEmailRequest.getEmail());
         return Response.success("이메일 발송 완료");
     }
 
-    @PostMapping("/auth-email-code")
-    public Response<AuthEmailResponse> validateAuthCode(@RequestBody String email, @RequestBody String authCode) {
-        boolean result = authService.verifyCode(email, authCode, "auth");
-        return Response.success(new AuthEmailResponse(email, result));
+    @PostMapping("/validate-email-code")
+    public Response<AuthEmailResponse> validateAuthCode(@RequestBody ValidateEmailCodeRequest validateEmailCodeRequest) {
+        boolean result = authService.verifyCode(validateEmailCodeRequest.getEmail(), validateEmailCodeRequest.getAuthCode(), "auth");
+        return Response.success(new AuthEmailResponse(validateEmailCodeRequest.getEmail(), result));
     }
 
     @PostMapping("/reset-password")
