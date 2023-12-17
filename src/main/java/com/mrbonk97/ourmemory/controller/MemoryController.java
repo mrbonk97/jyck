@@ -19,7 +19,7 @@ public class MemoryController {
     private final MemoryService memoryService;
 
     @GetMapping()
-    public Response<List<MemoryListResponse>> getMemoryList(Authentication authentication) {
+    public Response<List<MemoryListResponse>> getMemories(Authentication authentication) {
         Long userId = Long.valueOf(authentication.getName());
         return Response.success(memoryService.getList(userId).stream().map(MemoryListResponse::fromMemory).collect(Collectors.toList()));
     }

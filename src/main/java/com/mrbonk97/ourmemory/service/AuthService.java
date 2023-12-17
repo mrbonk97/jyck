@@ -2,7 +2,6 @@ package com.mrbonk97.ourmemory.service;
 
 import com.mrbonk97.ourmemory.Exception.ErrorCode;
 import com.mrbonk97.ourmemory.Exception.OurMemoryException;
-import com.mrbonk97.ourmemory.dto.auth.request.ChangePasswordRequest;
 import com.mrbonk97.ourmemory.model.MediaFile;
 import com.mrbonk97.ourmemory.model.AuthProvider;
 import com.mrbonk97.ourmemory.model.User;
@@ -52,9 +51,9 @@ public class AuthService {
         return JwtTokenUtils.generateToken(user.get().getId());
     }
 
-    public void sendAuthEmail(String toEmail) {
+    public String sendAuthEmail(String toEmail) {
         String authCode = RandomNumberUtils.generateNumber();
-        redisService.setValues(AUTH_CODE_PREFIX + toEmail, authCode, Duration.ofMillis(authCodeExpirationMillis));
+        // redisService.setValues(AUTH_CODE_PREFIX + toEmail, authCode, Duration.ofMillis(authCodeExpirationMillis));
 
         System.out.println(toEmail);
 
@@ -65,6 +64,7 @@ public class AuthService {
         msg.setSubject("우만시 인증 코드 발송");
         msg.setText(text);
         mailSender.send(msg);
+        return authCode;
     }
 
     public boolean verifyCode(String email, String authCode, String type) {

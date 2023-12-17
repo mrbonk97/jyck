@@ -2,10 +2,7 @@ package com.mrbonk97.ourmemory.controller;
 
 import com.mrbonk97.ourmemory.dto.Response;
 import com.mrbonk97.ourmemory.dto.auth.request.*;
-import com.mrbonk97.ourmemory.dto.auth.response.AuthCodeValidationResponse;
-import com.mrbonk97.ourmemory.dto.auth.response.AuthEmailResponse;
-import com.mrbonk97.ourmemory.dto.auth.response.AuthLoginResponse;
-import com.mrbonk97.ourmemory.dto.auth.response.AuthSignupResponse;
+import com.mrbonk97.ourmemory.dto.auth.response.*;
 import com.mrbonk97.ourmemory.model.User;
 import com.mrbonk97.ourmemory.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -37,16 +34,16 @@ public class AuthController {
     }
 
     @PostMapping("/validate-email")
-    public Response<String> validateEmail(@RequestBody ValidateEmailRequest validateEmailRequest) {
-        authService.sendAuthEmail(validateEmailRequest.getEmail());
-        return Response.success("이메일 발송 완료");
+    public Response<ValidateEmailResponse> validateEmail(@RequestBody ValidateEmailRequest validateEmailRequest) {
+        String code = authService.sendAuthEmail(validateEmailRequest.getEmail());
+        return Response.success(ValidateEmailResponse.fromCode(code));
     }
 
-    @PostMapping("/validate-email-code")
-    public Response<AuthEmailResponse> validateAuthCode(@RequestBody ValidateEmailCodeRequest validateEmailCodeRequest) {
-        boolean result = authService.verifyCode(validateEmailCodeRequest.getEmail(), validateEmailCodeRequest.getAuthCode(), "auth");
-        return Response.success(new AuthEmailResponse(validateEmailCodeRequest.getEmail(), result));
-    }
+//    @PostMapping("/validate-email-code")
+//    public Response<AuthEmailResponse> validateAuthCode(@RequestBody ValidateEmailCodeRequest validateEmailCodeRequest) {
+//        boolean result = authService.verifyCode(validateEmailCodeRequest.getEmail(), validateEmailCodeRequest.getAuthCode(), "auth");
+//        return Response.success(new AuthEmailResponse(validateEmailCodeRequest.getEmail(), result));
+//    }
 
     @PostMapping("/reset-password")
     public Response<String> resetPasswordEmailSend(@RequestBody ResetPasswordRequest resetPasswordRequest) {

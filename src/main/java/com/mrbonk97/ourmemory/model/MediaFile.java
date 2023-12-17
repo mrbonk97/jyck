@@ -19,11 +19,10 @@ public class MediaFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @Lob
+    @Column(length = 65535)
     String image;
 
-    public MediaFile(String image) {
-        this.image = image;
-    }
+    public MediaFile(String image) { this.image = image; }
 
 //    private String originalFilename;
 //    @Column(nullable = false)

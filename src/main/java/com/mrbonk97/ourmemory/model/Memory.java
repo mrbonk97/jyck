@@ -14,13 +14,12 @@ import java.util.List;
 public class Memory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @ManyToOne
-    User creator;
-    @Column(nullable = false)
-    String title;
-    String description;
-    Date date;
+    private User user;
+    private String title;
+    private String description;
+    private Date date;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "memory_image", inverseJoinColumns = @JoinColumn(name = "image_id"))
     List<MediaFile> Images = new ArrayList<>();

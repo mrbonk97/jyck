@@ -10,19 +10,22 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Friend {
+public class FriendGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @ManyToOne
     User user;
-    String name;
-    String description;
-    String phoneNumber;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    MediaFile profileImage;
+    private MediaFile image;
+    private String title;
+    private String description;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Event> events = new ArrayList<>();
-    @ManyToMany(mappedBy = "friends")
-    List<FriendGroup> friendGroup = new ArrayList<>();
+    private List<Event> events = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "friend_group_friend",
+            joinColumns = { @JoinColumn(name = "group_id") },
+            inverseJoinColumns = { @JoinColumn(name = "friend_id") })
+    private List<Friend> friends = new ArrayList<>();
 }

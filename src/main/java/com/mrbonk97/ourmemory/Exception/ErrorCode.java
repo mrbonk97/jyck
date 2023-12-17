@@ -12,6 +12,7 @@ public enum ErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저를 찾을 수 없음."),
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없음."),
     FRIEND_NOT_FOUND(HttpStatus.NOT_FOUND, "친구를 찾을 수 없음."),
+    FRIEND_GROUP_NOT_FOUND(HttpStatus.NOT_FOUND, "친구 그룹을 찾을 수 없음."),
     INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "패스워드가 유효하지 않음"),
     DUPLICATED_EMAIL(HttpStatus.CONFLICT, "이메일이 중복됨."),
     INVALID_PERMISSION(HttpStatus.UNAUTHORIZED, "권한이 없음"),

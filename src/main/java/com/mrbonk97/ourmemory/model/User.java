@@ -20,16 +20,10 @@ public class User {
     private String name;
     private String password;
     private String phoneNumber;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "account_friend", inverseJoinColumns = @JoinColumn(name = "friend_id"))
-    private List<Friend> friends;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private MediaFile profileImage;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Memory> memories;
     @Enumerated(EnumType.STRING)
     private AuthProvider authProvider = AuthProvider.local;
     private String providerId;
     Date emailVerified;
-
 }

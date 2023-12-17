@@ -1,6 +1,7 @@
 package com.mrbonk97.ourmemory.dto.friend.request;
 
 import com.mrbonk97.ourmemory.model.Event;
+import com.mrbonk97.ourmemory.model.FriendGroup;
 import lombok.Getter;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public class FriendCreateRequest {
     String phoneNumber;
     List<Event> events;
     String profileImage;
+    List<FriendGroup> friendGroups;
 }

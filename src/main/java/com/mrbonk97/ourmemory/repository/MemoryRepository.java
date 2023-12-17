@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface MemoryRepository extends JpaRepository<Memory, Long> {
-    List<Memory> findAllByCreator(User user);
+    List<Memory> findAllByUserId(Long userId);
 }

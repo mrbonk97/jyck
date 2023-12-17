@@ -42,7 +42,8 @@ public class FriendController {
                     friendCreateRequest.getDescription(),
                     friendCreateRequest.getPhoneNumber(),
                     friendCreateRequest.getEvents(),
-                    friendCreateRequest.getProfileImage()
+                    friendCreateRequest.getProfileImage(),
+                    friendCreateRequest.getFriendGroups()
             );
             if(friend == null) continue;
             friendResponse.add(FriendResponse.fromFriend(friend));
@@ -70,7 +71,8 @@ public class FriendController {
                 friendCreateRequest.getDescription(),
                 friendCreateRequest.getPhoneNumber(),
                 friendCreateRequest.getEvents(),
-                friendCreateRequest.getProfileImage()
+                friendCreateRequest.getProfileImage(),
+                friendCreateRequest.getFriendGroups()
         );
 
         return Response.success(FriendResponse.fromFriend(friend));

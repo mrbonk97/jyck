@@ -12,9 +12,6 @@ import com.mrbonk97.ourmemory.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -26,15 +23,13 @@ public class MemoryService {
     private final UserRepository userRepository;
 
     public List<Memory> getList(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new OurMemoryException(ErrorCode.USER_NOT_FOUND));
-        return memoryRepository.findAllByCreator(user);
+        return memoryRepository.findAllByUserId(userId);
     }
 
     @Transactional
     public void deleteMemory(Long userId, Long memoryId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new OurMemoryException(ErrorCode.USER_NOT_FOUND));
         Memory memory = memoryRepository.findById(memoryId).orElseThrow(() -> new OurMemoryException(ErrorCode.POST_NOT_FOUND));
-        if(!memory.getCreator().equals(user)) throw new OurMemoryException(ErrorCode.INVALID_PERMISSION);
+        if(!memory.getUser().getId().equals(userId)) throw new OurMemoryException(ErrorCode.INVALID_PERMISSION);
         memoryRepository.deleteById(memoryId);
     }
 
@@ -42,7 +37,7 @@ public class MemoryService {
     public Memory createMemory(Long userId, String title, String description, Date date, List<Long> friendIds, List<String> images) {
         User user = userRepository.findById(userId).orElseThrow(() -> new OurMemoryException(ErrorCode.USER_NOT_FOUND));
         Memory memory = new Memory();
-        memory.setCreator(user);
+        memory.setUser(user);
         memory.setTitle(title);
         memory.setDescription(description);
         memory.setDate(date);
@@ -74,8 +69,7 @@ public class MemoryService {
     @Transactional
     public Memory updateMemory(Long userId, Long memoryId, String title, String description, Date date, List<Long> friendIds, List<String> images) {
         Memory memory = memoryRepository.findById(memoryId).orElseThrow(() -> new OurMemoryException(ErrorCode.POST_NOT_FOUND));
-        User user = userRepository.findById(userId).orElseThrow(() -> new OurMemoryException(ErrorCode.USER_NOT_FOUND));
-        if(!memory.getCreator().equals(user)) throw new OurMemoryException(ErrorCode.INVALID_PERMISSION);
+        if(!memory.getUser().getId().equals(userId)) throw new OurMemoryException(ErrorCode.INVALID_PERMISSION);
 
         memory.setTitle(title);
         memory.setDescription(description);
@@ -86,7 +80,7 @@ public class MemoryService {
             for(var e: friendIds)
             {
                 Friend friend = friendRepository.findById(e).orElseThrow(() -> new OurMemoryException(ErrorCode.FRIEND_NOT_FOUND));
-                if(!friend.getUser().equals(user)) throw new OurMemoryException(ErrorCode.INVALID_PERMISSION);
+                if(!friend.getUser().getId().equals(userId)) throw new OurMemoryException(ErrorCode.INVALID_PERMISSION);
                 memory.getFriends().add(friend);
             }
         }
@@ -108,7 +102,7 @@ public class MemoryService {
     public Memory getSingleMemory(Long userId, Long memoryId) {
         Memory memory = memoryRepository.findById(memoryId).orElseThrow(() -> new OurMemoryException(ErrorCode.POST_NOT_FOUND));
         User user = userRepository.findById(userId).orElseThrow(() -> new OurMemoryException(ErrorCode.USER_NOT_FOUND));
-        if(!memory.getCreator().equals(user)) throw new OurMemoryException(ErrorCode.INVALID_PERMISSION);
+        if(!memory.getUser().getId().equals(userId)) throw new OurMemoryException(ErrorCode.INVALID_PERMISSION);
         return memory;
     }
 }
