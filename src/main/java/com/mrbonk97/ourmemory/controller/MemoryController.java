@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 public class MemoryController {
     private final MemoryService memoryService;
 
-    @GetMapping()
+    @GetMapping
     public Response<List<MemoryListResponse>> getMemories(Authentication authentication) {
         Long userId = Long.valueOf(authentication.getName());
-        return Response.success(memoryService.getList(userId).stream().map(MemoryListResponse::fromMemory).collect(Collectors.toList()));
+        return Response.success(memoryService.getMemories(userId).stream().map(MemoryListResponse::fromMemory).collect(Collectors.toList()));
     }
 
     @GetMapping("/{memoryId}")
@@ -39,7 +39,7 @@ public class MemoryController {
                 memoryCreateRequest.getTitle(),
                 memoryCreateRequest.getDescription(),
                 memoryCreateRequest.getDate(),
-                memoryCreateRequest.getFriendIds(),
+                memoryCreateRequest.getFriends(),
                 memoryCreateRequest.getImages()
         );
         MemoryResponse memoryResponse = MemoryResponse.fromMemory(memory);
@@ -55,7 +55,7 @@ public class MemoryController {
                 memoryCreateRequest.getTitle(),
                 memoryCreateRequest.getDescription(),
                 memoryCreateRequest.getDate(),
-                memoryCreateRequest.getFriendIds(),
+                memoryCreateRequest.getFriends(),
                 memoryCreateRequest.getImages()
         );
 

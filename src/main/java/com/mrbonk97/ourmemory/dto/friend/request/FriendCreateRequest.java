@@ -2,9 +2,13 @@ package com.mrbonk97.ourmemory.dto.friend.request;
 
 import com.mrbonk97.ourmemory.model.Event;
 import com.mrbonk97.ourmemory.model.FriendGroup;
+import com.mrbonk97.ourmemory.model.MediaFile;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 public class FriendCreateRequest {
@@ -12,6 +16,6 @@ public class FriendCreateRequest {
     String description;
     String phoneNumber;
     List<Event> events;
-    String profileImage;
-    List<FriendGroup> friendGroups;
+    MediaFile profileImage;
+    List<FriendGroup> friendGroups = new ArrayList<>();
 }

@@ -8,6 +8,9 @@ import com.mrbonk97.ourmemory.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/auth")
 @RestController
@@ -34,16 +37,10 @@ public class AuthController {
     }
 
     @PostMapping("/validate-email")
-    public Response<ValidateEmailResponse> validateEmail(@RequestBody ValidateEmailRequest validateEmailRequest) {
-        String code = authService.sendAuthEmail(validateEmailRequest.getEmail());
+    public Response<ValidateEmailResponse> validateEmail(@RequestBody ValidateEmailRequest validateEmailRequest) throws ExecutionException, InterruptedException {
+        CompletableFuture<String> code = authService.sendAuthEmail(validateEmailRequest.getEmail());
         return Response.success(ValidateEmailResponse.fromCode(code));
     }
-
-//    @PostMapping("/validate-email-code")
-//    public Response<AuthEmailResponse> validateAuthCode(@RequestBody ValidateEmailCodeRequest validateEmailCodeRequest) {
-//        boolean result = authService.verifyCode(validateEmailCodeRequest.getEmail(), validateEmailCodeRequest.getAuthCode(), "auth");
-//        return Response.success(new AuthEmailResponse(validateEmailCodeRequest.getEmail(), result));
-//    }
 
     @PostMapping("/reset-password")
     public Response<String> resetPasswordEmailSend(@RequestBody ResetPasswordRequest resetPasswordRequest) {

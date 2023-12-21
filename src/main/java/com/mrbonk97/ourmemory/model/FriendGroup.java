@@ -21,11 +21,15 @@ public class FriendGroup {
     private String title;
     private String description;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(
+            name = "friend_group_event",
+            joinColumns = { @JoinColumn(name = "friend_group_id") },
+            inverseJoinColumns = { @JoinColumn(name = "event_id") })
     private List<Event> events = new ArrayList<>();
-
     @ManyToMany
     @JoinTable(name = "friend_group_friend",
-            joinColumns = { @JoinColumn(name = "group_id") },
+            joinColumns = { @JoinColumn(name = "friend_group_id") },
             inverseJoinColumns = { @JoinColumn(name = "friend_id") })
     private List<Friend> friends = new ArrayList<>();
+
 }

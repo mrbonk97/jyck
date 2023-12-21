@@ -40,9 +40,9 @@ public class FriendResponse {
         friendResponse.setPhoneNumber(friend.getPhoneNumber());
         friendResponse.setEvents(friend.getEvents());
         friendResponse.setProfileImage(friend.getProfileImage());
-        if(friend.getFriendGroup() == null) return friendResponse;
+        if(friend.getFriendGroups() == null) return friendResponse;
 
-        for(var e: friend.getFriendGroup())  friendResponse.getFriendGroups().add(new FG(e.getId(), e.getTitle(), e.getDescription(), e.getImage()));
+        for(var e: friend.getFriendGroups())  friendResponse.getFriendGroups().add(new FG(e.getId(), e.getTitle(), e.getDescription(), e.getImage()));
         return friendResponse;
     }
 }

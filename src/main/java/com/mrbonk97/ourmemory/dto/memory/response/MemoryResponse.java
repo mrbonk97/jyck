@@ -27,6 +27,7 @@ public class MemoryResponse {
     private String title;
     private String description;
     private Date date;
+    private List<MediaFile> images = new ArrayList<>();
     private List<F> friends = new ArrayList<>();
 
     public static MemoryResponse fromMemory(Memory memory) {
@@ -35,6 +36,7 @@ public class MemoryResponse {
         memoryResponse.setTitle(memory.getTitle());
         memoryResponse.setDescription(memory.getDescription());
         memoryResponse.setDate(memory.getDate());
+        memoryResponse.setImages(memory.getImages());
 
         if(memory.getFriends() == null) return memoryResponse;
 

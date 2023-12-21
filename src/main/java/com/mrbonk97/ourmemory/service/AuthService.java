@@ -12,12 +12,14 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
 @Service
@@ -51,7 +53,8 @@ public class AuthService {
         return JwtTokenUtils.generateToken(user.get().getId());
     }
 
-    public String sendAuthEmail(String toEmail) {
+    @Async
+    public CompletableFuture<String> sendAuthEmail(String toEmail) {
         String authCode = RandomNumberUtils.generateNumber();
         // redisService.setValues(AUTH_CODE_PREFIX + toEmail, authCode, Duration.ofMillis(authCodeExpirationMillis));
 
@@ -64,7 +67,7 @@ public class AuthService {
         msg.setSubject("우만시 인증 코드 발송");
         msg.setText(text);
         mailSender.send(msg);
-        return authCode;
+        return CompletableFuture.completedFuture(authCode);
     }
 
     public boolean verifyCode(String email, String authCode, String type) {

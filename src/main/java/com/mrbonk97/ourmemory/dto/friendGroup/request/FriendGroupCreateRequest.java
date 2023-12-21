@@ -6,6 +6,7 @@ import com.mrbonk97.ourmemory.model.MediaFile;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,6 +16,6 @@ public class FriendGroupCreateRequest {
     private String title;
     private String description;
     private MediaFile image;
-    private List<Event> events;
-    private List<Friend> friends;
+    private List<Event> events = new ArrayList<>();
+    private List<Friend> friends = new ArrayList<>();
 }

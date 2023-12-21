@@ -3,9 +3,10 @@ package com.mrbonk97.ourmemory.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SortComparator;
+import org.springframework.data.web.SortDefault;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -24,5 +25,8 @@ public class Friend {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     List<Event> events = new ArrayList<>();
     @ManyToMany(mappedBy = "friends")
-    List<FriendGroup> friendGroup = new ArrayList<>();
+    List<FriendGroup> friendGroups = new ArrayList<>();
+    @ManyToMany(mappedBy = "friends")
+    List<Memory> memories = new ArrayList<>();
+
 }
