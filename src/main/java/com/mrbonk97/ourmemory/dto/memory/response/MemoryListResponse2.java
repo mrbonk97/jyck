@@ -1,18 +1,19 @@
 package com.mrbonk97.ourmemory.dto.memory.response;
 
-import com.mrbonk97.ourmemory.model.Friend;
 import com.mrbonk97.ourmemory.model.MediaFile;
 import com.mrbonk97.ourmemory.model.Memory;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@NoArgsConstructor
 @Getter
 @Setter
-public class MemoryResponse {
+public class MemoryListResponse2 {
     private static class F {
         public Long id;
         public String name;
@@ -23,29 +24,29 @@ public class MemoryResponse {
             this.profileImage = profileImage;
         }
     }
-    private Long id;
-    private String title;
-    private String description;
-    private Date date;
-    private List<MediaFile> images = new ArrayList<>();
-    private List<F> friends = new ArrayList<>();
 
-    public static MemoryResponse fromMemory(Memory memory) {
-        MemoryResponse memoryResponse = new MemoryResponse();
-        memoryResponse.setId(memory.getId());
-        memoryResponse.setTitle(memory.getTitle());
-        memoryResponse.setDescription(memory.getDescription());
-        memoryResponse.setDate(memory.getDate());
-        memoryResponse.setImages(memory.getImages());
+    Long id;
+    String title;
+    String description;
+    MediaFile thumbnail;
+    List<F> friends = new ArrayList<>();
+    Date date;
 
+    public static MemoryListResponse2 fromMemory(Memory memory) {
+        MemoryListResponse2 memoryListResponse2 = new MemoryListResponse2();
+        memoryListResponse2.setId(memory.getId());
+        memoryListResponse2.setTitle(memory.getTitle());
+        memoryListResponse2.setDescription(memory.getDescription());
+        memoryListResponse2.setThumbnail(memory.getImages().get(0));
+        memoryListResponse2.setDate(memory.getDate());
 
         if(memory.getFriends() != null) {
             for (var e : memory.getFriends()) {
                 F f = new F(e.getId(), e.getName(), e.getProfileImage());
-                memoryResponse.getFriends().add(f);
+                memoryListResponse2.getFriends().add(f);
             }
         }
 
-        return memoryResponse;
+        return memoryListResponse2;
     }
 }

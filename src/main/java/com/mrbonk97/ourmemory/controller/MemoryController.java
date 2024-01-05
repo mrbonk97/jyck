@@ -2,7 +2,9 @@ package com.mrbonk97.ourmemory.controller;
 
 import com.mrbonk97.ourmemory.dto.Response;
 import com.mrbonk97.ourmemory.dto.memory.request.MemoryCreateRequest;
+import com.mrbonk97.ourmemory.dto.memory.request.MemoryUpdateRequest;
 import com.mrbonk97.ourmemory.dto.memory.response.MemoryListResponse;
+import com.mrbonk97.ourmemory.dto.memory.response.MemoryListResponse2;
 import com.mrbonk97.ourmemory.dto.memory.response.MemoryResponse;
 import com.mrbonk97.ourmemory.model.Memory;
 import com.mrbonk97.ourmemory.service.MemoryService;
@@ -19,9 +21,9 @@ public class MemoryController {
     private final MemoryService memoryService;
 
     @GetMapping
-    public Response<List<MemoryListResponse>> getMemories(Authentication authentication) {
+    public Response<List<MemoryListResponse2>> getMemories(Authentication authentication) {
         Long userId = Long.valueOf(authentication.getName());
-        return Response.success(memoryService.getMemories(userId).stream().map(MemoryListResponse::fromMemory).collect(Collectors.toList()));
+        return Response.success(memoryService.getMemories(userId).stream().map(MemoryListResponse2::fromMemory).collect(Collectors.toList()));
     }
 
     @GetMapping("/{memoryId}")
@@ -39,7 +41,7 @@ public class MemoryController {
                 memoryCreateRequest.getTitle(),
                 memoryCreateRequest.getDescription(),
                 memoryCreateRequest.getDate(),
-                memoryCreateRequest.getFriends(),
+                memoryCreateRequest.getFriendIds(),
                 memoryCreateRequest.getImages()
         );
         MemoryResponse memoryResponse = MemoryResponse.fromMemory(memory);
@@ -47,16 +49,16 @@ public class MemoryController {
     }
 
     @PutMapping("/{memoryId}")
-    public Response<MemoryResponse> updateMemory(Authentication authentication, @PathVariable Long memoryId, @RequestBody MemoryCreateRequest memoryCreateRequest) {
+    public Response<MemoryResponse> updateMemory(Authentication authentication, @PathVariable Long memoryId, @RequestBody MemoryUpdateRequest memoryUpdateRequest) {
         Long userId = Long.valueOf(authentication.getName());
         Memory memory = memoryService.updateMemory(
                 userId,
                 memoryId,
-                memoryCreateRequest.getTitle(),
-                memoryCreateRequest.getDescription(),
-                memoryCreateRequest.getDate(),
-                memoryCreateRequest.getFriends(),
-                memoryCreateRequest.getImages()
+                memoryUpdateRequest.getTitle(),
+                memoryUpdateRequest.getDescription(),
+                memoryUpdateRequest.getDate(),
+                memoryUpdateRequest.getFriendIds(),
+                memoryUpdateRequest.getImages()
         );
 
         return Response.success(MemoryResponse.fromMemory(memory));

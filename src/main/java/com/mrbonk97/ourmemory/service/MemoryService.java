@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class MemoryService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Memory createMemory(Long userId, String title, String description, Date date, List<Friend> friends, List<MediaFile> images) {
+    public Memory createMemory(Long userId, String title, String description, Date date, List<Long> friends, List<MediaFile> images) {
         User user = userRepository.findById(userId).orElseThrow(() -> new OurMemoryException(ErrorCode.USER_NOT_FOUND));
         Memory memory = new Memory();
         memory.setUser(user);
@@ -35,7 +36,7 @@ public class MemoryService {
 
         for(var e: friends)
         {
-            Friend friend = friendRepository.findById(e.getId()).orElseThrow(() -> new OurMemoryException(ErrorCode.FRIEND_NOT_FOUND));
+            Friend friend = friendRepository.findById(e).orElseThrow(() -> new OurMemoryException(ErrorCode.FRIEND_NOT_FOUND));
             if(!friend.getUser().equals(user)) throw new OurMemoryException(ErrorCode.INVALID_PERMISSION);
             memory.getFriends().add(friend);
             friend.getMemories().add(memory);
@@ -45,7 +46,7 @@ public class MemoryService {
     }
 
     @Transactional
-    public Memory updateMemory(Long userId, Long memoryId, String title, String description, Date date, List<Friend> friends, List<MediaFile> images) {
+    public Memory updateMemory(Long userId, Long memoryId, String title, String description, Date date, HashSet<Long> friends, List<MediaFile> images) {
         User user = userRepository.findById(userId).orElseThrow(() -> new OurMemoryException(ErrorCode.USER_NOT_FOUND));
         Memory memory = memoryRepository.findById(memoryId).orElseThrow(() -> new OurMemoryException(ErrorCode.POST_NOT_FOUND));
         if(!memory.getUser().getId().equals(userId)) throw new OurMemoryException(ErrorCode.INVALID_PERMISSION);
@@ -53,12 +54,24 @@ public class MemoryService {
         memory.setTitle(title);
         memory.setDescription(description);
         memory.setDate(date);
-        memory.setImages(images);
 
-        for(var e: friends)
-        {
-            Friend friend = friendRepository.findById(e.getId()).orElseThrow(() -> new OurMemoryException(ErrorCode.FRIEND_NOT_FOUND));
+        HashSet<Long> deleteId = new HashSet<>();
+        for(var e: images) if(e.getId() != null) deleteId.add(e.getId());
+        memory.getImages().removeIf((e) -> !deleteId.contains(e.getId()));
+
+        for(var e: images) {
+            if(deleteId.contains(e.getId())) continue;
+            memory.getImages().add(e);
+        }
+
+        System.out.println(friends.toString());
+
+        memory.getFriends().removeIf((e) -> !friends.contains(e.getId()));
+
+        for(var e: friends) {
+            Friend friend = friendRepository.findById(e).orElseThrow(() -> new OurMemoryException(ErrorCode.FRIEND_NOT_FOUND));
             if(!friend.getUser().equals(user)) throw new OurMemoryException(ErrorCode.INVALID_PERMISSION);
+            System.out.println(friend.getName() + " " + friend.getId());
             memory.getFriends().add(friend);
             friend.getMemories().add(memory);
         }

@@ -7,14 +7,15 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 @Setter
 @Getter
-public class MemoryCreateRequest {
+public class MemoryUpdateRequest {
     String title;
     String description;
     Date date;
-    List<Long> friendIds = new ArrayList<>();
+    HashSet<Long> friendIds = new HashSet<>();
     List<MediaFile> images = new ArrayList<>();
 }
