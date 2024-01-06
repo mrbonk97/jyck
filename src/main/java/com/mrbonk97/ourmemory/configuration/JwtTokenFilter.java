@@ -23,7 +23,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         if(!header.startsWith("Bearer ")) { log.error("Jwt 방식이 아님"); filterChain.doFilter(request,response); return; }
 
         String token = header.split(" ")[1];
-        if(!JwtTokenUtils.validateToken(token)) { log.error("토큰이 만료됨"); filterChain.doFilter(request,response); return; }
+        if(!JwtTokenUtils.validateToken(token)) {
+            log.error("토큰이 만료됨"); filterChain.doFilter(request,response);
+            return;
+        }
+
         Long userId = JwtTokenUtils.extractSubject(token);
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, null, null);
