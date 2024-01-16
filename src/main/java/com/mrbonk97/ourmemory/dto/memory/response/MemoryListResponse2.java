@@ -17,11 +17,9 @@ public class MemoryListResponse2 {
     private static class F {
         public Long id;
         public String name;
-        public MediaFile profileImage;
-        public F(Long id, String name, MediaFile profileImage) {
+        public F(Long id, String name) {
             this.id = id;
             this.name = name;
-            this.profileImage = profileImage;
         }
     }
 
@@ -42,7 +40,7 @@ public class MemoryListResponse2 {
 
         if(memory.getFriends() != null) {
             for (var e : memory.getFriends()) {
-                F f = new F(e.getId(), e.getName(), e.getProfileImage());
+                F f = new F(e.getId(), e.getName());
                 memoryListResponse2.getFriends().add(f);
             }
         }

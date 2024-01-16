@@ -11,7 +11,6 @@ import com.mrbonk97.ourmemory.utils.RandomNumberUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +27,8 @@ public class AuthService {
     private static final String RESET_CODE_PREFIX = "ResetPassword ";
     private final long authCodeExpirationMillis = 1800000L;
     private final UserRepository userRepository;
-    private final JavaMailSender mailSender;
     private final RedisService redisService;
+    private final EmailService emailService;
 
     @Transactional
     public User createUser(String email, String name, String password, String phoneNumber, String profileImage) {
@@ -55,18 +54,12 @@ public class AuthService {
 
     @Async
     public CompletableFuture<String> sendAuthEmail(String toEmail) {
+        System.out.println(emailService);
         String authCode = RandomNumberUtils.generateNumber();
-        // redisService.setValues(AUTH_CODE_PREFIX + toEmail, authCode, Duration.ofMillis(authCodeExpirationMillis));
+        emailService.sendMail("lululala", toEmail, "우만시 회원가입 인증 코드",  authCode);
 
-        System.out.println(toEmail);
 
-        String text = "회원 가입을 위해 인증코드 확인 후 이메일 인증을 완료해 주세요.\n아래 인증코드를 복사하여 입력해 주시기 바랍니다.\n * 이메일 인증 코드: " + authCode;
 
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo(toEmail);
-        msg.setSubject("우만시 인증 코드 발송");
-        msg.setText(text);
-        mailSender.send(msg);
         return CompletableFuture.completedFuture(authCode);
     }
 
@@ -86,7 +79,7 @@ public class AuthService {
         msg.setTo(toEmail);
         msg.setSubject("우만시 패스워드 초기화 인증 코드 발송");
         msg.setText(text);
-        mailSender.send(msg);
+//        mailSender.send(msg);
     }
 
     public boolean validateCodeExpiration(String code) {

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v2/memories")
+@RequestMapping("/v2/memories")
 @RestController
 public class MemoryController {
     private final MemoryService memoryService;
@@ -24,6 +24,12 @@ public class MemoryController {
     public Response<List<MemoryListResponse2>> getMemories(Authentication authentication) {
         Long userId = Long.valueOf(authentication.getName());
         return Response.success(memoryService.getMemories(userId).stream().map(MemoryListResponse2::fromMemory).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/friends/{friendId}")
+    public Response<List<MemoryListResponse2>> getMemoriesOfFriend(Authentication authentication, @PathVariable Long friendId) {
+        Long userId = Long.valueOf(authentication.getName());
+        return Response.success(memoryService.getMemoriesOfFriend(userId, friendId).stream().map(MemoryListResponse2::fromMemory).collect(Collectors.toList()));
     }
 
     @GetMapping("/{memoryId}")

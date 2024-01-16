@@ -13,7 +13,6 @@ import java.time.Duration;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api")
 public class TestController {
     private JavaMailSender mailSender;
     private RedisService redisService;

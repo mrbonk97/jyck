@@ -27,7 +27,7 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow( () -> new OurMemoryException(ErrorCode.USER_NOT_FOUND));
         user.setEmail(email);
         user.setName(name);
-        user.setPassword(password);
+        if(password != null) user.setPassword(password);
         user.setProfileImage(new MediaFile(profileImage));
         user.setPhoneNumber(phoneNumber);
         

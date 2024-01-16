@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v2/auth")
+@RequestMapping("/v2/auth")
 @RestController
 public class AuthController {
 

@@ -36,6 +36,7 @@ public class FriendService {
         friend.setPhoneNumber(phoneNumber);
         friend.setProfileImage(profileImage);
         friend.setEvents(events);
+
         for(var e: friendGroups)
         {
             FriendGroup friendGroup = friendGroupRepository.findById(e.getId()).orElseThrow(() -> new OurMemoryException(ErrorCode.FRIEND_GROUP_NOT_FOUND));
@@ -78,7 +79,7 @@ public class FriendService {
         friend.getEvents().clear();
         for(var e: events) {
             if(e.getId() != null) {
-                Event event = eventRepository.findById(e.getId()).orElseThrow(() -> new OurMemoryException(ErrorCode.FRIEND_GROUP_NOT_FOUND));
+                Event event = eventRepository.findById(e.getId()).orElseThrow(() -> new OurMemoryException(ErrorCode.EVENT_NOT_FOUNT));
                 event.setName(e.getName());
                 event.setDate(e.getDate());
                 friend.getEvents().add(event);

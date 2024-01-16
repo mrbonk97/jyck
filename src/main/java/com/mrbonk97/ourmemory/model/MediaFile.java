@@ -19,7 +19,7 @@ public class MediaFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @Lob
-    @Column(length = 65535)
+    @Column(length = 4000000)
     String image;
 
     public MediaFile(String image) { this.image = image; }

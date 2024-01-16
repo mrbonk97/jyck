@@ -13,9 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -96,5 +94,13 @@ public class MemoryService {
         User user = userRepository.findById(userId).orElseThrow(() -> new OurMemoryException(ErrorCode.USER_NOT_FOUND));
         if(!memory.getUser().getId().equals(userId)) throw new OurMemoryException(ErrorCode.INVALID_PERMISSION);
         return memory;
+    }
+
+    public List<Memory> getMemoriesOfFriend(Long userId, Long friendId) {
+        Friend friend = friendRepository.findById(friendId).orElseThrow(() -> new OurMemoryException(ErrorCode.FRIEND_NOT_FOUND));
+        userRepository.findById(userId).orElseThrow(() -> new OurMemoryException(ErrorCode.USER_NOT_FOUND));
+        if(!Objects.equals(friend.getUser().getId(), userId)) throw new OurMemoryException(ErrorCode.INVALID_PERMISSION);
+
+        return friend.getMemories();
     }
 }

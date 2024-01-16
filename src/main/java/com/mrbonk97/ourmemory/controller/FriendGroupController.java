@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v2/friend-groups")
+@RequestMapping("/v2/friend-groups")
 @RestController
 public class FriendGroupController {
     private final FriendGroupService friendGroupService;
